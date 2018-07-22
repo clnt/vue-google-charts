@@ -88,13 +88,14 @@ export default {
     processChartData (api) {
       if (this.multiple && Array.isArray(this.data)) {
         this.data.forEach((group, groupIndex) => {
-
-          if (Array.isArray(group.data)) group.data.forEach((chart, index) => {
-            const ref = chart.ref || 'chart' + groupIndex + '-' + index;
-            const chartObj = this.createChartObject(ref)
-            this.$emit('ready', chartObj, api)
-            this.drawChart(chartObj, groupIndex, index, ref)
-          })
+          if (Array.isArray(group.data)) {
+            group.data.forEach((chart, index) => {
+              const ref = chart.ref || 'chart' + groupIndex + '-' + index
+              const chartObj = this.createChartObject(ref)
+              this.$emit('ready', chartObj, api)
+              this.drawChart(chartObj, groupIndex, index, ref)
+            })
+          }
         })
       } else {
         const ref = 'chart'
@@ -106,14 +107,14 @@ export default {
 
     drawChart (chart, groupIndex, index, ref) {
       if (!chartsLib || !this.chartStore.length > 0) return
-      let data = null;
+      let data = null
       if (this.multiple) data = this.getSpecificValidChartData(groupIndex, index, ref)
       else data = this.getValidChartData()
       if (data) chart.draw(data, this.options)
     },
 
     redraw () {
-      this.chartStore = [];
+      this.chartStore = []
       this.processChartData(chartsLib)
     },
 
