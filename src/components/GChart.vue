@@ -4,6 +4,7 @@
       <div :class="formatClasses(group.classes)" class="chart-group">
         <div class="chart-group-name" v-if="group.name">{{ group.name }}</div>
         <div class="chart-wrap" v-for="(chart, index) in group.data" :key="'chart' + groupIndex + index">
+          <div class="chart-name">{{ chart.name }}</div>
           <div :ref="chart.ref || 'chart' + groupIndex + '-' + index"></div>
         </div>
       </div>
@@ -122,7 +123,7 @@ export default {
       if (this.data instanceof chartsLib.visualization.DataTable) return this.data
       if (this.data instanceof chartsLib.visualization.DataView) return this.data
       if (Array.isArray(this.data)) return chartsLib.visualization.arrayToDataTable(this.data)
-      if (this.data === Object(this.data)) return new chartsLib.visualization.DataTable(this.data)
+      if (this.data !== null && typeof this.data === 'object') return new chartsLib.visualization.DataTable(this.data)
       return null
     },
 
@@ -130,7 +131,7 @@ export default {
       if (this.data[groupIndex].data[index].data instanceof chartsLib.visualization.DataTable) return this.data[groupIndex].data[index].data
       if (this.data[groupIndex].data[index].data instanceof chartsLib.visualization.DataView) return this.data[groupIndex].data[index].data
       if (Array.isArray(this.data[groupIndex].data[index].data)) return chartsLib.visualization.arrayToDataTable(this.data[groupIndex].data[index].data)
-      if (this.data[groupIndex].data[index].data === Object(this.data[groupIndex].data[index].data)) return new chartsLib.visualization.DataTable(this.data[groupIndex].data[index].data)
+      if (this.data[groupIndex].data[index].data !== null && typeof this.data[groupIndex].data[index].data === 'object') return new chartsLib.visualization.DataTable(this.data[groupIndex].data[index].data)
       return null
     },
 
